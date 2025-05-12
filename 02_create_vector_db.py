@@ -3,7 +3,7 @@ import json
 import os
 from config import *
 
-document_to_embed = "knowledge_pool/Competition_brief.txt"
+document_to_embed = "knowledge_pool/the rise of co-living.txt"
 
 def get_embedding(text, model=embedding_model):
    text = text.replace("\n", " ")
