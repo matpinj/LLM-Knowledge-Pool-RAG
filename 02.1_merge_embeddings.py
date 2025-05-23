@@ -8,7 +8,7 @@ def merge_json_files(directory):
     for filename in os.listdir(directory):
         if filename.endswith(".json") and filename != "merged.json":
             file_path = os.path.join(directory, filename)
-            with open(file_path, "r") as file:
+            with open(file_path, "r", encoding="utf-8") as file:
                 data = json.load(file)
                 merged_data.extend(data)
     return merged_data

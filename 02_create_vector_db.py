@@ -3,7 +3,7 @@ import json
 import os
 from config import *
 
-document_to_embed = "knowledge_pool/the rise of co-living.txt"
+document_to_embed = 'knowledge_pool\Cross-evaluation of thermal comfort in semi-outdoor spaces according to geometry in Southern Spain.txt'
 
 def get_embedding(text, model=embedding_model):
    text = text.replace("\n", " ")
@@ -22,12 +22,29 @@ chunks = [line for line in chunks if line.strip() and line.strip() != '---']
 # chunks = text_file.split("\n\n")
         
 # Create the embeddings
+# embeddings = []
+# for i, line in enumerate(chunks):
+#     print(f'{i} / {len(chunks)}')
+#     vector = get_embedding(line.encode(encoding='utf-8').decode())
+#     database = {'content': line, 'vector': vector}
+#     embeddings.append(database)
+
+# ...existing code...
 embeddings = []
 for i, line in enumerate(chunks):
     print(f'{i} / {len(chunks)}')
-    vector = get_embedding(line.encode(encoding='utf-8').decode())
-    database = {'content': line, 'vector': vector}
-    embeddings.append(database)
+    try:
+        response = local_client.embeddings.create(input=[line], model=embedding_model)
+        print("Embedding response:", response)
+        if not response or not hasattr(response, "data") or not response.data:
+            print(f"Warning: No embedding returned for line {i}: {line}")
+            continue
+        vector = response.data[0].embedding
+        database = {'content': line, 'vector': vector}
+        embeddings.append(database)
+    except Exception as e:
+        print(f"Error embedding line {i}: {e}")
+# ...existing code...
 
 # Save the embeddings to a json file
 output_filename = os.path.splitext(document_to_embed)[0]

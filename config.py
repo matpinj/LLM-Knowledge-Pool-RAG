@@ -71,7 +71,7 @@ llama3 = [
             "model": "lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF",
             'api_key': 'any string here is fine',
             'api_type': 'openai',
-            'base_url': "http://localhost:1234/v1",
+            'base_url': "http://127.0.0.1:1234",
             "cache_seed": random.randint(0, 100000),
         }
 ]
